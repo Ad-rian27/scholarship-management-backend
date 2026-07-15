@@ -35,7 +35,7 @@ const Scholarship=mongoose.model("Scholarships", new mongoose.Schema(
         scholType: String,
         eligpa: String,
         maxfaminc: String,
-        acholAmt: String,
+        scholAmt: String,
         lastDate: String,
         desc: String,
     }
@@ -53,6 +53,16 @@ const Application=mongoose.model("Applications", new mongoose.Schema(
         refNo: String
     }
 ))
+
+app.post("/view-schol", async (req, res) => {
+    const scholarships=await Scholarship.find()
+    res.json(scholarships)
+}) 
+  
+app.post("/add-schol", async (req,res) => {
+    await Scholarship.create(req.body)
+    res.json({"status" : "success"})
+})
 
 app.listen(3000,() => {
     console.log("Server started")
