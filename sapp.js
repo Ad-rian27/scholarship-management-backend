@@ -35,7 +35,7 @@ const Scholarship=mongoose.model("Scholarships", new mongoose.Schema(
         scholType: String,
         eligpa: String,
         maxfaminc: String,
-        acholAmt: String,
+        scholAmt: String,
         lastDate: String,
         desc: String,
     }
@@ -53,6 +53,36 @@ const Application=mongoose.model("Applications", new mongoose.Schema(
         refNo: String
     }
 ))
+
+app.post("/view-app", async (req, res) => {
+    const applications=await Application.find()
+    res.json(applications)
+}) 
+  
+app.post("/add-app", async (req,res) => {
+    await Application.create(req.body)
+    res.json({"status" : "success"})
+})
+
+app.post("/view-schol", async (req, res) => {
+    const scholarships=await Scholarship.find()
+    res.json(scholarships)
+}) 
+  
+app.post("/add-schol", async (req,res) => {
+    await Scholarship.create(req.body)
+    res.json({"status" : "success"})
+})
+  
+app.post("/view-std", async (req, res) => {
+    const students=await Student.find()
+    res.json(students)
+}) 
+  
+app.post("/add-std", async (req,res) => {
+    await Student.create(req.body)
+    res.json({"status" : "success"})
+})
 
 app.listen(3000,() => {
     console.log("Server started")
