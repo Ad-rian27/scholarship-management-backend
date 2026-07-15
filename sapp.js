@@ -54,6 +54,16 @@ const Application=mongoose.model("Applications", new mongoose.Schema(
     }
 ))
 
+app.post("/view-app", async (req, res) => {
+    const applications=await Application.find()
+    res.json(applications)
+}) 
+  
+app.post("/add-app", async (req,res) => {
+    await Application.create(req.body)
+    res.json({"status" : "success"})
+})
+
 app.post("/view-schol", async (req, res) => {
     const scholarships=await Scholarship.find()
     res.json(scholarships)
