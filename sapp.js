@@ -54,6 +54,17 @@ const Application=mongoose.model("Applications", new mongoose.Schema(
     }
 ))
 
+app.post("/view-app", async (req, res) => {
+    const applications=await Application.find()
+    res.json(applications)
+}) 
+  
+app.post("/add-app", async (req,res) => {
+    await Application.create(req.body)
+    res.json({"status" : "success"})
+})
+
+
 app.listen(3000,() => {
     console.log("Server started")
 })
