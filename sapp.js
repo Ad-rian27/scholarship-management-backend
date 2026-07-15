@@ -1,69 +1,47 @@
-const express=require("express")
-const mongoose=require("mongoose")
-const cors=require("cors")
+require("dotenv").config();
 
-const app=express()
-app.use(cors())
-app.use(express.json())
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./src/config/db");
+const {
+  viewStudents,
+  addStudent,
+} = require("./src/controllers/studentController");
+const {
+  viewScholarships,
+  addScholarship,
+} = require("./src/controllers/scholarshipController");
+const {
+  viewApplications,
+  addApplication,
+} = require("./src/controllers/applicationController");
 
-mongoose.connect("mongodb+srv://adrian:adrian123@cluster0.veegpvo.mongodb.net/acholmgmtdb").then(
-    () => {
-        console.log("MongoDB Scholarship Management connected")
-    }
-).catch(
-    (err) => (
-        console.log(err)
-))
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-const Student=mongoose.model("Students", new mongoose.Schema(
-    {
-        stuID: String,
-        stuName: String,
-        regNo: String,
-        dept: String,
-        course: String,
-        yos: String,
-        email: String,
-        phone: String
-    }
-))
+app.use(cors());
+app.use(express.json());
 
-const Scholarship=mongoose.model("Scholarships", new mongoose.Schema(
-    {
-        scholID: String,
-        scholName: String,
-        scholType: String,
-        eligpa: String,
-        maxfaminc: String,
-        acholAmt: String,
-        lastDate: String,
-        desc: String,
-    }
-))
+connectDB()
+  .then(() => {
+    console.log("Database connected successfully");
+  })
+  .catch((error) => {
+    console.error("Database connection failed:", error.message);
+    process.exit(1);
+  });
 
-const Application=mongoose.model("Applications", new mongoose.Schema(
-    {
-        appID: String,
-        stuID: String,
-        scholID: String,
-        appDate: String,
-        cgpa: String,
-        faminc: String,
-        status: String,
-        refNo: String
-    }
-))
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
-app.post("/view-std", async (req, res) => {
-    const students=await Student.find()
-    res.json(students)
-}) 
-  
-app.post("/add-std", async (req,res) => {
-    await Student.create(req.body)
-    res.json({"status" : "success"})
-})
+app.post("/view-app", viewApplications);
+app.post("/add-app", addApplication);
+app.post("/view-schol", viewScholarships);
+app.post("/add-schol", addScholarship);
+app.post("/view-std", viewStudents);
+app.post("/add-std", addStudent);
 
-app.listen(3000,() => {
-    console.log("Server started")
-})
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
