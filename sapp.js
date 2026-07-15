@@ -16,6 +16,8 @@ const {
 const {
   viewApplications,
   addApplication,
+  searchApplications,
+  deleteApplication,
 } = require("./src/controllers/applicationController");
 
 const app = express();
@@ -39,6 +41,8 @@ app.get("/health", (req, res) => {
 
 app.post("/view-app", viewApplications);
 app.post("/add-app", addApplication);
+app.post("/search-app", searchApplications);
+app.post("/delete-app", deleteApplication);
 app.post("/view-schol", viewScholarships);
 app.post("/add-schol", addScholarship);
 app.post("/view-std", viewStudents);
