@@ -63,6 +63,16 @@ app.post("/add-schol", async (req,res) => {
     await Scholarship.create(req.body)
     res.json({"status" : "success"})
 })
+  
+app.post("/view-std", async (req, res) => {
+    const students=await Student.find()
+    res.json(students)
+}) 
+  
+app.post("/add-std", async (req,res) => {
+    await Student.create(req.body)
+    res.json({"status" : "success"})
+})
 
 app.listen(3000,() => {
     console.log("Server started")
