@@ -6,6 +6,8 @@ const connectDB = require("./src/config/db");
 const {
   viewStudents,
   addStudent,
+  searchStudents,
+  deleteStudent,
 } = require("./src/controllers/studentController");
 const {
   viewScholarships,
@@ -41,6 +43,8 @@ app.post("/view-schol", viewScholarships);
 app.post("/add-schol", addScholarship);
 app.post("/view-std", viewStudents);
 app.post("/add-std", addStudent);
+app.post("/search-std", searchStudents);
+app.post("/delete-std", deleteStudent);
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
