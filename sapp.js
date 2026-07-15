@@ -54,6 +54,16 @@ const Application=mongoose.model("Applications", new mongoose.Schema(
     }
 ))
 
+app.post("/view-std", async (req, res) => {
+    const students=await Student.find()
+    res.json(students)
+}) 
+  
+app.post("/add-std", async (req,res) => {
+    await Student.create(req.body)
+    res.json({"status" : "success"})
+})
+
 app.listen(3000,() => {
     console.log("Server started")
 })
